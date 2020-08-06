@@ -1,0 +1,69 @@
+﻿@addTagHelper *, Microsoft.AspNetCore.Mvc.TagHelpers
+@model WitchSagaWeb.Models.PersonsViewModel
+@{
+    Layout = null;
+}
+
+<!DOCTYPE html>
+
+<html>
+<head>
+    <meta name="viewport" content="width=device-width" />
+    <title>Index</title>
+    <link href="~/style.css" rel="stylesheet" />
+</head>
+<body>
+    <div>
+        <h1> Witch Saga</h1>
+        <img src="~/witch_saga.png" />
+    </div>
+
+
+    <form id="form" method="post" asp-controller="Home" asp-action="Index">
+        <div>
+            Number of victims
+            <input asp-for="@Model.NumberOfVictims" />
+            <input type="button" value="Set" onclick="submitAndSetCalculate(false)" />
+        </div>
+
+        @{
+            var index = 0;
+        }
+        @foreach (var person in Model.Persons)
+        {
+        <div class="person">
+            Person @index
+            <br />
+            Age Of Death
+            <input asp-for="@person.AgeOfDeath" name="persons[@index].AgeOfDeath" />
+            Year Of Death
+            <input asp-for="@person.YearOfDeath" name="persons[@index].YearOfDeath" />       
+        </div>
+            index++;
+        }
+
+        @Html.HiddenFor(x => x.Calculate)
+
+
+        <input type="button" value="Calculate" onclick="submitAndSetCalculate(true)" />
+
+        <div class="result">
+            <strong>
+                Result :
+                @Html.DisplayTextFor(x => x.Result)
+            </strong>
+        </div>
+    </form>
+
+
+</body>
+
+<script>
+    function submitAndSetCalculate(calculate) {
+        document.getElementById('Calculate').value = calculate;
+        document.getElementById('form').submit();
+    }
+
+  
+</script>
+</html>
